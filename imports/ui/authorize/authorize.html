@@ -1,0 +1,69 @@
+<template name="authorize">
+      {{#contentFor "headerTitle"}}
+  <h1 class="title">Communecter</h1>
+  {{/contentFor}}
+  {{#ionView}}
+  {{#ionContent class="rubyonic-pane"}}
+
+    {{#if currentUser}}
+    <form method="post" id="form" action="" role="form" class="{{#unless Template.subscriptionsReady}}hidden{{/unless}}">
+        <div class="list">
+        <div class="item item-divider">{{_ "Authorise"}}</div>
+         {{#if currentUser}}
+        <div class="item {{#if currentUser.profile.pixelhumain.profilThumbImageUrl}}item-thumbnail-left{{/if}} item-text-wrap user-info">
+             {{#if currentUser.profile.pixelhumain.profilThumbImageUrl}}
+            <img src="{{urlImageCommunecter}}{{currentUser.profile.pixelhumain.profilThumbImageUrl}}"> 
+            {{/if}}
+                {{_ "You_are_logged_in_as"}}
+                <strong>{{currentUser.profile.pixelhumain.name}}</strong>
+        </div>
+        {{/if}}
+        
+        <div class="item item-text-wrap integration-info">
+                    <strong>{{getClient.name}}</strong> {{_ "will_be_able_to"}}
+                <p></p>
+        </div>
+        <input type="hidden" name="allow" value="yes">
+        <input type="hidden" name="token" value="{{getToken}}">
+        <input type="hidden" name="client_id" value="{{client_id}}">
+        <input type="hidden" name="redirect_uri" value="{{redirect_uri}}">
+        <input type="hidden" name="response_type" value="code">
+        <div class="button-bar bar-light">
+        <button type="submit" class="button button-balanced"><i class="icon fa fa-check"></i> {{_ "Authorise"}}</button>
+        <button id="logout-oauth" class="button button-assertive"><i class="icon fa fa-sign-out"></i> {{_ "Logout"}}</button>
+        <button id="cancel-oauth" class="button button-light"><i class="icon fa fa-times"></i> {{_ "Cancel"}}</button>
+        </div>
+        </div>
+    </form>
+    {{#unless Template.subscriptionsReady}} 
+    loading... 
+    {{/unless}} 
+    {{else}} 
+    {{#if $eq viewlog 'login'}}
+    {{> login}}
+    {{else}}
+    {{> signin}}
+    {{/if}}
+    {{/if}}
+     {{/ionContent}}
+  {{/ionView}}
+</template>
+
+<template name="oauth404">
+         {{#contentFor "headerTitle"}}
+  <h1 class="title">Communecter sso error</h1>
+  {{/contentFor}}
+  {{#ionView}}
+  {{#ionContent class="rubyonic-pane"}}
+    <div class="card oauth-panel">
+        <div class="item item-assertive item-body">
+            {{#if $eq error '404'}}
+            Invalid OAuth client
+            {{/if}} {{#if $eq error 'invalid_redirect_uri'}}
+            <i class="icon fa fa-warning"></i> Redirect URL does not match
+            {{/if}}
+        </div>
+    </div>
+    {{/ionContent}}
+  {{/ionView}}
+</template>

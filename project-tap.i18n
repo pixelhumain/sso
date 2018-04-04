@@ -1,0 +1,5 @@
+// project-root/project-tap.i18n
+{
+    "supported_languages": ["en","fr"],
+    "preloaded_langs": ["en","fr"]
+}
